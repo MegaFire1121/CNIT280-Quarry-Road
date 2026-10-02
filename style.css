@@ -83,7 +83,8 @@ list-style:none;
 display:inline;
 }
 
-#login { 
+#header_links #login
+{
 	margin-left: 30px
 }
 
