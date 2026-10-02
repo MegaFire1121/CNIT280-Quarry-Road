@@ -1,0 +1,194 @@
+body {
+	margin: 0;
+	padding: 0;
+	background: #697281;
+	text-align: left;
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	color: #000000;
+	background-image:url(images/top.png);
+	background-repeat:repeat-x;
+	background-color:#DFDCC9;
+}
+*
+{
+text-align:left;	
+}
+#container
+{
+display:block;
+width:1000px;	
+margin:0 auto 0 auto;
+}
+
+#header
+{
+	display:block;
+width:1000px;	
+height:129px;
+float:left;
+clear:both;
+}
+
+#header_title h1
+{
+color:#FFF;
+font-size:28px;
+float:left;
+margin:0px;
+padding:0px;
+margin-top:53px;
+color:#FAF9EB;
+}
+
+#header_links
+{
+float:right;
+display:block;	
+}
+
+#header_links a,#header_links a:visited
+{
+	display:block;
+	float:left;
+	padding-left:7px;
+	padding-right:7px;
+	background-image:url(images/link_back.png);
+	height:30px;
+	line-height:30px;
+	border:0px;
+	text-decoration:none;
+	color:#000;
+	margin-left:5px;
+	margin-right:5px;
+	margin-top:43px;
+	font-weight:bold;
+}
+
+#header_links a:hover
+{
+color:#8F843F;
+text-decoration:underline;
+}
+
+
+#header_links ul
+{
+list-style:none;
+	
+}
+
+#header_links ul li
+{
+display:inline;
+}
+
+
+#content_left
+{
+float:left;
+display:block;
+width:175px;
+}
+
+#content_right
+{
+float:left;
+display:block;
+width:165px;
+padding-left:10px;
+text-align:right;
+
+}
+
+#content_main
+{
+float:left;
+display:block;
+width:650px;
+background-image:url(images/content_back.png);
+background-repeat:repeat-y;
+
+
+}
+
+.content_main_text
+{
+margin:0 auto 0 auto;
+width:620px;	
+}
+
+ul.leftmenu
+{
+list-style:none;	
+padding:0px;
+margin:0px;
+padding-bottom:15px;
+}
+
+ul.leftmenu li
+{
+padding-left:5px;
+margin-bottom:4px;
+}
+
+
+ul.leftmenu li a, ul.leftmenu li a:visited
+{
+color:#35320D;
+}
+
+ul.leftmenu li a:hover
+{
+	text-decoration:none;
+}
+
+
+
+
+
+.content_main_text h2, .content_main_text h2 a, .content_main_text h2 a:visited
+{
+color:#86782D;
+font-size:25px;
+text-decoration:none;
+}
+
+.content_main_text h2 a:hover
+{
+text-decoration:underline;	
+	
+}
+
+#content_main_bottom
+{
+float:left;
+clear:both;
+display:block;
+width:650px;
+height:6px;
+background-image:url(images/content_bottom.png);
+background-repeat:no-repeat;
+}
+
+#footer
+{
+display:block;
+width:1000px;	
+text-align:center;
+clear:both;
+font-size:11px;
+}
+
+
+#footer a, #footer a:visited
+{
+color:#000;
+text-decoration:none;	
+}
+
+
+html, body {
+text-align: center;
+}
+p {text-align: left;}
