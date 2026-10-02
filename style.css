@@ -83,6 +83,10 @@ list-style:none;
 display:inline;
 }
 
+#login { 
+	margin-left: 30px
+}
+
 
 #content_left
 {
