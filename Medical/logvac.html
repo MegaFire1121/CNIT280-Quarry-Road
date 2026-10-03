@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="/style.css" />
+  <script src="/Quarry_road.js"></script>
+  <title>Quarry Road Portal - Veterinary Records</title>
+</head>
+<body>
+
+  <div id="container">
+    <div id="header">
+      <div id="header_title">
+        <h1>Quarry Road Portal</h1>
+      </div>
+
+      <div id="header_links">
+        <ul>
+          <li><a href="/index.html">Home</a></li>
+          <li><a href="/staff.html">Staff</a></li>
+          <li><a href="#">Adopter</a></li>
+          <li><a href="/medical.html">Medical</a></li>
+          <li><a href="#">Volunteer</a></li>
+          <li><a href="/foster.html">Fosters</a></li>
+          <li id="login"><a href="/login.html">Login</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="content_left">
+      <h3>Vet Tasks</h3>
+      <ul class="leftmenu">
+        <li><a href="#">Log Vaccinations</a></li>
+        <li><a href="#">Medical Clearances</a></li>
+        <li><a href="#">Prescriptions</a></li>
+        <li><a href="#">Lab Results</a></li>
+      </ul>
+
+      <h3>Search</h3>
+      <ul class="leftmenu">
+        <li><a href="#">Filter: Ready for Adoption</a></li>
+        <li><a href="#">Filter: Overdue Booster Shots</a></li>
+      </ul>
+    </div>
+    
+    <div id="vaccination_page">
+      <div class="content_main_text">
+        <h2>Log Vaccinations</h2>
+       
+        <hr />
+        <form id="vac_form">
+          <label for="patient">Patient Name</label>
+          <input type="text" id="patient" required>
+          
+          <label for="patient">Patient Name</label>
+          <input type="text" id="patient" required>
+
+          <label for="patient">Patient Name</label>
+          <input type="text" id="patient" required>
+
+          <button type="submit">Log Vaccination</button>
+        </form>
+
+        <p id="thank you"></p>
+
+        <table id="vac_table">
+          <thead>
+            <tr>
+              <th>Patient</th>
+              <th>Vaccine</th>
+              <th>Date</th>
+              <th>Vaccine</th>
+            </tr>
+          </thead>
+          <tbody id="vac_records">
+          </tbody>
+        </table>
+        
+
+      </div>
+      <div id="content_main_bottom"></div>
+    </div>
+
+    <div id="content_right">
+      <h3>Vet Tools</h3>
+      <ul class="leftmenu">
+        <li><a href="#">Print Medical Pass</a></li>
+        <li><a href="#">Update Spay/Neuter</a></li>
+        <li><a href="#">Sign Adoption Clearance</a></li>
+      </ul>
+    </div>
+
+    <div id="footer">
+      
+    </div>
+  </div>
+
+</body>
+</html>

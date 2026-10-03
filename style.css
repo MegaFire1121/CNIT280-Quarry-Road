@@ -197,3 +197,122 @@ html, body {
 text-align: center;
 }
 p {text-align: left;}
+
+
+
+/* For log_vac.html */
+#vac_page
+{
+    width:800px;
+    margin:auto;
+}
+
+#vac_page h1
+{
+    text-align:center;
+}
+
+#vac_form
+{
+    width:400px;
+    margin:auto;
+}
+
+#vac_form label
+{
+    display:block;
+    margin-top:15px;
+    margin-bottom:5px;
+}
+
+#vac_form input
+{
+    width:100%;
+    height:30px;
+    box-sizing:border-box;
+}
+
+#vac_form button
+{
+    margin-top:20px;
+    padding:10px 20px;
+}
+
+#thank_you
+{
+    text-align:center;
+    font-weight:bold;
+}
+
+#vac_table
+{
+    width:100%;
+    margin-top:30px;
+    border-collapse:collapse;
+}
+
+#vac_table th,
+#vac_table td
+{
+    border:1px solid #000;
+    padding:10px;
+    text-align:left;
+}
+
+#vac_page
+{
+    width:800px;
+    margin:auto;
+}
+
+#vac_page h1
+{
+    text-align:center;
+}
+
+#vac_form
+{
+    width:400px;
+    margin:auto;
+}
+
+#vac_form label
+{
+    display:block;
+    margin-top:15px;
+    margin-bottom:5px;
+}
+
+#vac_form input
+{
+    width:100%;
+    height:30px;
+    box-sizing:border-box;
+}
+
+#vac_form button
+{
+    margin-top:20px;
+    padding:10px 20px;
+}
+
+#thank_you
+{
+    text-align:center;
+    font-weight:bold;
+}
+
+#vac_table
+{
+    width:100%;
+    margin-top:30px;
+    border-collapse:collapse;
+}
+
+#vac_table th,
+#vac_table td
+{
+    border:1px solid #000;
+    padding:10px;
+    text-align:left;
+}
