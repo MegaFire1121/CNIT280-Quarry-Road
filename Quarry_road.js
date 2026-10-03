@@ -4,6 +4,13 @@ function logVaccination() {
     var date = document.getElementById("date").value;
     var dose = document.getElementById("dose").value;
 
+        // Check if any information is missing
+    if (patient == "" || vaccine == "" || date == "" || dose == "") {
+        document.getElementById("thank_you").innerHTML =
+            "Error: Please fill out all fields.";
+        return;
+    }
+
     var records = document.getElementById("vac_records");
 
     var row = records.insertRow();
