@@ -1,15 +1,13 @@
 <script>
 
-document.getElementById("vaccination_form").addEventListener("submit", function(event)
+function logVaccination()
 {
-    event.preventDefault();
-
     let patient = document.getElementById("patient").value;
     let vaccine = document.getElementById("vaccine").value;
     let date = document.getElementById("date").value;
     let dose = document.getElementById("dose").value;
 
-    let table = document.getElementById("vaccination_records");
+    let table = document.getElementById("vac_records");
 
     let row = table.insertRow();
 
@@ -21,8 +19,8 @@ document.getElementById("vaccination_form").addEventListener("submit", function(
     document.getElementById("thank_you").textContent =
         "Thank you for logging the medical record.";
 
-    document.getElementById("vaccination_form").reset();
-});
+    document.getElementById("vac_form").reset();
+}
 
 </script>
 

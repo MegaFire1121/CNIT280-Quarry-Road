@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" type="text/css" href="style.css" />
-  <script src="Quarry_road.js"></script>
+  <link rel="stylesheet" type="text/css" href="/style.css" />
+  <script src="/Quarry_road.js"></script>
   <title>Quarry Road Portal - Veterinary Records</title>
 </head>
 <body>
@@ -53,16 +53,19 @@
           <label for="patient">Patient Name</label>
           <input type="text" id="patient" required>
           
-          <label for="patient">Patient Name</label>
-          <input type="text" id="patient" required>
+          <label for="vaccine">Vaccine</label>
+          <input type="text" id="vaccine" required>
 
-          <label for="patient">Patient Name</label>
-          <input type="text" id="patient" required>
+          <label for="date">Date</label>
+          <input type="text" id="date" required>
 
-          <button type="submit">Log Vaccination</button>
+          <label for="dose">Dose</label>
+          <input type="text" id="dose" min="1" required>
+
+          <button type="button" onclick="logVaccination()">Log Vaccination</button>
         </form>
 
-        <p id="thank you"></p>
+        <p id="thank_you"></p>
 
         <table id="vac_table">
           <thead>
@@ -70,7 +73,7 @@
               <th>Patient</th>
               <th>Vaccine</th>
               <th>Date</th>
-              <th>Vaccine</th>
+              <th>Dose</th>
             </tr>
           </thead>
           <tbody id="vac_records">
