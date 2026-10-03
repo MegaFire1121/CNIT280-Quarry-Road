@@ -83,7 +83,7 @@ list-style:none;
 display:inline;
 }
 
-#header_links #login
+#header_links a#login
 {
 	margin-left: 30px
 }
