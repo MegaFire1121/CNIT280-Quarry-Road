@@ -16,8 +16,9 @@ class WebsiteHandler(SimpleHTTPRequestHandler):
         path = unquote(urlsplit(self.path).path)
         relative = path.lstrip("/") or "index.html"
         candidate = (ROOT / relative).resolve()
-        allowed = candidate in {ROOT / "index.html", ROOT / "style.css"} or (
-            candidate.is_relative_to(ROOT / "images") and candidate.is_file()
+            allowed = (candidate.suffix == ".html" or candidate in {ROOT / "style.css"}) or (
+                candidate.is_relative_to(ROOT / "images") and candidate.is_file()
+            )
         )
         if not allowed:
             self.send_error(404, "File not found")
