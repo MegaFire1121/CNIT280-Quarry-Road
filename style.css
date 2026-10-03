@@ -201,22 +201,6 @@ p {text-align: left;}
 
 
 /* For log_vac.html */
-#vac_page
-{
-    width:800px;
-    margin:auto;
-}
-
-#vac_page h1
-{
-    text-align:center;
-}
-
-#vac_form
-{
-    width:400px;
-    margin:auto;
-}
 
 #vac_form label
 {
@@ -259,16 +243,6 @@ p {text-align: left;}
     text-align:left;
 }
 
-#vac_page
-{
-    width:800px;
-    margin:auto;
-}
-
-#vac_page h1
-{
-    text-align:center;
-}
 
 #vac_form
 {
