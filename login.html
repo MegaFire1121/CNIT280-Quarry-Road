@@ -30,15 +30,27 @@
     <div id="content_main">
       <div class="content_main_text">
                 <h2><a>User Portal</a></h2>
+        <form onsubmit="event.preventDefault(); validateLogin();">
         <label for="username">Username:</label>
-        <input type="text" id="username" name="username" placeholder="Enter your username">
+        <input type="text" id="username" name="username" required>
         <p> </p>
           <label for="username">Password:</label>
-          <input type="text" id="password" name="password" placeholder="Enter your username">
+          <input type="text" id="password" name="password" required>
          <p> </p>
         
-        <button type="submit" class="login-btn">Log In</button>
-
+        <button type="submit">Log In</button>
+          </form>
+        <script>
+            function validateLogin() {
+                const user = document.getElementById("username").value;
+                const pass = document.getElementById("password").value;
+                if (user === "admin" && pass === "password123") {
+                    window.location.href = "director.html"; 
+                } else {
+                    alert("Incorrect username or password. Please try again.");
+                }
+            }
+        </script>
         <p>&nbsp;</p>
       </div>
 
