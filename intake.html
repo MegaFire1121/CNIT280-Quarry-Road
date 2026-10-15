@@ -28,7 +28,9 @@
     </div>
 
     <div id="content_main">
-      <h2><a>New Pet Intake Information Form</a></h2>
+      <div class="content_main_text" style="padding-left: 40px;">
+      <h2>New Pet Intake Information Form</h2>
+        <form id="intakeForm">
       <label for="name">Name:</label>
       <input type="text" id="name" name="name" required>
       <p> </p>
@@ -45,8 +47,30 @@
       </select>
       <p> </p>
       <button type="submit">Submit</button>
+        </form>
+
+
+        <script>
+            document.getElementById('intakeForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                const name = document.getElementById('name').value;
+                const id = document.getElementById('id').value;
+                const chip = document.getElementById('chip').value;
+                const avail = document.getElementById('avail').value;
+
+                let existingEntries = JSON.parse(localStorage.getItem('tableData')) || [];
+                existingEntries.push({ name: name, id: id, chip: chip, avail: avail });
+                localStorage.setItem('tableData', JSON.stringify(existingEntries));
+              
+                this.reset();
+
+                window.location.href = 'status.html';
+            });
+        </script>
         <p>&nbsp;</p>
-      </div>
+     
+    </div>
 
 
 

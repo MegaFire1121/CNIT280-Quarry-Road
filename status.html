@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <title>Quarry Road Director Portal - Animal Status</title>
+</head>
+<body>
+
+  <div id="container">
+    <div id="header">
+      <div id="header_title">
+        <h1>Quarry Road Portal</h1>
+      </div>
+
+      <div id="header_links">
+        <ul>
+          <li id="home"><a href="index.html">Home</a></li>
+          <li id="staff"><a href="staff.html">Staff</a></li>
+          <li id="adopter"><a href="adopter.html">Adopter</a></li>
+          <li id="medical"><a href="medical.html">Medical</a></li>
+          <li id="volunteer"><a href="volunteer.html">Volunteer</a></li>
+          <li id="foster"><a href="foster.html">Foster</a></li>
+          <li id="login"><a href="login.html">Login</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="content_left">
+      
+      
+    </div>
+
+    <div id="content_main">
+      <div class="content_main_text">
+
+        <table id="petTable">
+          <thead>
+            <tr>
+              <th>Pet Name</th>
+              <th>ID #</th>
+              <th>Microchip #</th>
+              <th>Availability</th>
+            </tr>
+          </thead>
+          <tbody id="pet_records">
+          </tbody>
+        </table>
+        
+      </div>
+    </div>
+
+
+
+    <div id="content_right">
+      
+    </div>
+
+    <div id="footer">
+
+    </div>
+
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const tbody = document.getElementById('pet_records');
+      const records = JSON.parse(localStorage.getItem('tableData')) || [];
+      
+      records.forEach(pet => {
+        const row = document.createElement('tr');
+        
+        const formattedAvail = pet.avail === 'yes' ? 'Available' : 'Not Available';
+
+        [pet.name, pet.id, pet.chip, formattedAvail].forEach(value => {
+          const cell = document.createElement('td');
+          cell.textContent = value == null ? '' : String(value);
+          row.appendChild(cell);
+        });
+
+        tbody.appendChild(row);
+      });
+    });
+
+  </script>
+
+</body>
+</html>
