@@ -46,7 +46,11 @@
                 const pass = document.getElementById("password").value;
                 if (user === "admin" && pass === "password123") {
                     window.location.href = "director.html"; 
-                } else {
+                }
+                else if (user === "adopter" && pass === "DogCatLover69") {
+                  window.location.href = "adopter.html";
+                }
+                else {
                     alert("Incorrect username or password. Please try again.");
                 }
             }
