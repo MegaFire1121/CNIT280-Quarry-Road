@@ -35,10 +35,10 @@
         <input type="text" id="chip" name="chip" required>
         <p> </p>
 
-        <button type="submit">Search</button>
+        <button type="button" id="search-btn">Search</button>
+        <div id="search-results" style="margin-top: 20px;"></div>
          
-        
-    
+  
       </div>
 
 
@@ -48,6 +48,50 @@
     </div>
 
   </div>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const searchBtn = document.getElementById("search-btn");
+    if (!searchBtn) return;
 
+    searchBtn.addEventListener("click", () => {
+    const chipInput = document.getElementById("chip").value.trim();
+    const resultsContainer = document.getElementById("search-results");
+
+    if (!chipInput) {
+      resultsContainer.innerHTML = "<p style='color: red;'>ERROR: NO CHIP NUMBER ENTERED.</p>";
+      return;
+    }
+      const records = JSON.parse(localStorage.getItem("tableData")) || [];
+      const matchedPet = records.find(pet => String(pet.chip) === chipInput);
+
+      if (matchedPet) {
+          const formattedAvail = matchedPet.avail === "yes" ? "Available" : "Not Available";
+          resultsContainer.innerHTML = `
+            <h3>Match Found:</h3>
+            <table border="1" style="border-collapse: collapse; width: 100%; margin-top: 10px;">
+              <thead>
+                <tr>
+                  <th>Pet Name</th>
+                  <th>ID #</th>
+                  <th>Microchip #</th>
+                  <th>Availability</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>${matchedPet.name || ""}</td>
+                  <td>${matchedPet.id || ""}</td>
+                  <td>${matchedPet.chip || ""}</td>
+                  <td>${formattedAvail}</td>
+                </tr>
+              </tbody>
+            </table>
+          `;
+        } else {
+          resultsContainer.innerHTML = `<p style="color: #666;">ERROR: There is no animal with that microchip number: <strong>${chipInput}</strong></p>`;
+        }
+      });
+  });
+</script>
 </body>
 </html>
