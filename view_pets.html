@@ -1,80 +1,97 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" type="text/css" href="style.css" />
-<title>Quarry Road Animal Rescue</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <title>Quarry Road Portal - Animal Adoption Center</title>
 </head>
 <body>
-    
-    
-<div id="container">
-        <div id="header">
-        	<div id="header_title"><h1>Quarry Road Portal</h1></div>
-            
-            <div id="header_links">
-            	<ul>
-                <li id="home"><a href="index.html">Home</a></li>
-                <li id="staff"><a href="staff.html">Staff</a></li>
-                <li id="adopter"><a href="adopter.html">Adopter</a></li>
-                <li id="medical"><a href="medical.html">Medical</a></li>
-                <li id="volunteer"><a href="volunteer.html">Volunteer</a></li>
-                <li id="foster"><a href="foster.html">Foster</a></li>
-                <li id="login"><a href="login.html">Login</a></li>
-                </ul>
-            </div>
-            
-            
-        </div>
-        
-        
-        
-        <div id="content_left">
-        
-        <h3>Articles</h3>
-        <ul class="leftmenu">
-        	<li><a href="">Adopting A New Pet</a></li>
-            <li><a href="">Fostering 101</a></li>
-            <li><a href="">Introducing Pets to Kids</a></li>
-            <li><a href="">Why Your Pet Needs Vaccines</a></li>
-            <li><a href="">Animal Hospital: When Do I Need To Go?</a></li>
+
+  <div id="container">
+    <div id="header">
+      <div id="header_title">
+        <h1>Quarry Road Portal</h1>
+      </div>
+
+      <div id="header_links">
+        <ul>
+          <li id="home"><a href="index.html">Home</a></li>
+          <li id="staff"><a href="staff.html">Staff</a></li>
+          <li id="adopter"><a href="adopter.html">Adopter</a></li>
+          <li id="medical"><a href="medical.html">Medical</a></li>
+          <li id="volunteer"><a href="volunteer.html">Volunteer</a></li>
+          <li id="foster"><a href="foster.html">Foster</a></li>
+          <li id="login"><a href="login.html">Login</a></li>
         </ul>
+      </div>
+    </div>
+
+    <div id="content_left">
+      <h2>Looking to Adopt A Pet?</h2>
+      <h3>Enter The ID Number Here:</h3>
+      <label for="idnum">ID Number:</label>
+      <input type="text" id="idnum" name="idnum" required>
+      <p> </p>
+
+      <button type="button" id="submit-btn">Submit</button>
+     
+      
+    </div>
+
+    <div id="content_main">
+      <div class="content_main_text">
+
+        <table id="petTable">
+          <thead>
+            <tr>
+              <th>Pet Name</th>
+              <th>ID #</th>
+              <th>Microchip #</th>
+              <th>Availability</th>
+            </tr>
+          </thead>
+          <tbody id="pet_records">
+          </tbody>
+        </table>
         
-        <h3>Our Story</h3>
-        <ul class="leftmenu">
-        	<li><a href="">Our Founding</a></li>
-            <li><a href="">Our Funding</a></li>
-            <li><a href="">Our Office</a></li>
-            <li><a href="">Our Journey</a></li>
-            <li><a href="">Our Stats</a></li>
-        </ul>
+      </div>
+    </div>
+
+
+
+    <div id="content_right">
+      
+    </div>
+
+    <div id="footer">
+
+    </div>
+
   </div>
-        
-        <div id="content_main">
-   	  <div class="content_main_text">
-                <h2><a href="#">Welcome!</a></h2>
-          <p>We are a small animal rescue, operating on foster homes and volunteers. We are excited to help connect you with the right pet for you.</p>
-          
-        <p>&nbsp;</p>
-   	  </div>
-        <div id="content_main_bottom"></div>
-        </div>
-        
-        <div id="content_right">
-        
-        
-        <h3>The Team</h3>
-        <ul class="leftmenu">
-        	<li><a href="">Our Director</a></li>
-            <li><a href="">Our Vet</a></li>
-            <li><a href="">Our Staff</a></li>
-        </ul>
-  </div>
-        
-       
-        </div>
-        </div>
-        
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const tbody = document.getElementById('pet_records');
+      const records = JSON.parse(localStorage.getItem('tableData')) || [];
+
+    const availPets = records.filter(pet => pet.avail === 'yes');
+      
+      availPets.forEach(pet => {
+        const row = document.createElement('tr');
+        const formattedAvail = 'Available';
+
+        [pet.name, pet.id, pet.chip, formattedAvail].forEach(value => {
+          const cell = document.createElement('td');
+          cell.textContent = value == null ? '' : String(value);
+          row.appendChild(cell);
+        });
+
+        tbody.appendChild(row);
+      });
+    });
+
+  </script>
+
 </body>
 </html>
