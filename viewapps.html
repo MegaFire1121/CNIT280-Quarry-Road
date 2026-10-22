@@ -39,24 +39,44 @@
           <button type="submit">Search</button>
         </form>
 
+        <div id="searchResults" style="margin-top: 20px;"></div>
+
         <script>
           document.getElementById('searchApps').addEventListener('submit', function(event) {
             event.preventDefault();
 
             const targetId = document.getElementById('id').value.trim();
-
-
+            const resultsContainer = document.getElementById('searchResults');
+             
             let existingEntries = JSON.parse(localStorage.getItem('tableData')) || [];
-
-            const petIndex = existingEntries.findIndex(pet => pet.id === targetId);
+           
+            const matchedPet = existingEntries.find(pet => String(pet.id).trim() === targetId);
+          
             
-            if (petIndex !== -1) {
-              localStorage.setItem('tableData', JSON.stringify(existingEntries));
-              
-            } else {
-              alert('ERROR: No pet found with ID #' + targetId);
-            }
-          });
+           
+
+            if (matchedPet) {
+                
+                const statusLabels = {
+                  'yes': 'Available',
+                  'no': 'Not Available',
+                  'pending': 'Pending Adoption',
+                  'adopted': 'Adopted'
+                };
+                const displayStatus = statusLabels[matchedPet.avail] || matchedPet.avail || 'Unknown';
+
+                resultsContainer.innerHTML = `
+                  <h3>Pet Found:</h3>
+                  <p><strong>Name:</strong> ${matchedPet.name}</p>
+                  <p><strong>ID #:</strong> ${matchedPet.id}</p>
+                  <p><strong>Microchip #:</strong> ${matchedPet.chip}</p>
+                  <p><strong>Status:</strong> ${displayStatus}</p>
+                `;
+              } else {
+                resultsContainer.innerHTML = '';
+                alert('ERROR: No pet found with ID #' + targetId);
+              }
+            });
         </script>
         <p>&nbsp;</p>
       </div>
