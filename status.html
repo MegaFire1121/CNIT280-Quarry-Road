@@ -68,10 +68,20 @@
       const tbody = document.getElementById('pet_records');
       const records = JSON.parse(localStorage.getItem('tableData')) || [];
       
-      records.forEach(pet => {
-        const row = document.createElement('tr');
+      
         
-        const formattedAvail = pet.avail === 'yes' ? 'Available' : 'Not Available';
+        //const formattedAvail = pet.avail === 'yes' ? 'Available' : 'Not Available';
+        const statusLabels = {
+          'yes': 'Available',
+          'no': 'Not Available',
+          'pending': 'Pending Adoption',
+          'adopted': 'Adopted'
+        };
+
+      records.forEach(pet => {
+      const row = document.createElement('tr');
+
+      const formattedAvail = statusLabels[pet.avail] || pet.avail || 'Unknown';
 
         [pet.name, pet.id, pet.chip, formattedAvail].forEach(value => {
           const cell = document.createElement('td');

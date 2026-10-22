@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <title>Quarry Road Director Portal - Update Statuses</title>
+</head>
+<body>
+
+  <div id="container">
+    <div id="header">
+      <div id="header_title">
+        <h1>Quarry Road Portal</h1>
+      </div>
+
+      <div id="header_links">
+        <ul>
+          <li id="home"><a href="index.html">Home</a></li>
+          <li id="staff"><a href="staff.html">Staff</a></li>
+          <li id="adopter"><a href="adopter.html">Adopter</a></li>
+          <li id="medical"><a href="medical.html">Medical</a></li>
+          <li id="volunteer"><a href="volunteer.html">Volunteer</a></li>
+          <li id="foster"><a href="foster.html">Foster</a></li>
+          <li id="login"><a href="login.html">Login</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="content_main">
+      <div class="content_main_text" style="padding-left: 40px;">
+        <h2>Update Pet Adoption Status</h2>
+        <form id="updateForm">
+          <label for="id">Pet ID #:</label>
+          <input type="text" id="id" name="id" required>
+          <p> </p>
+
+          <label for="avail">Update Adoption Status:</label>
+          <select id="avail" name="avail">
+            <option value="no">Not Available</option>
+            <option value="yes">Available</option>
+            <option value="pending">Pending Adoption</option>
+            <option value="adopted">Adopted</option>
+          </select>
+          <p> </p>
+
+          <button type="submit">Update Status</button>
+        </form>
+
+        <script>
+          document.getElementById('updateForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const targetId = document.getElementById('id').value.trim();
+            const newAvail = document.getElementById('avail').value;
+          
+
+            let existingEntries = JSON.parse(localStorage.getItem('tableData')) || [];
+
+            //const petIndex = existingEntries.findIndex(pet => pet.id === targetId);
+            const petIndex = existingEntries.findIndex(
+              pet => String(pet.id).trim() === targetId
+            );
+          
+
+            if (petIndex !== -1) {
+              existingEntries[petIndex].avail = newAvail;
+              localStorage.setItem('tableData', JSON.stringify(existingEntries));
+              window.location.href = 'status.html';
+            } else {
+              alert('ERROR: No pet found with ID #' + targetId);
+            }
+          });
+        </script>
+        <p>&nbsp;</p>
+      </div>
+    </div>
+
+    <div id="footer">
+    </div>
+
+  </div>
+
+</body>
+</html>
