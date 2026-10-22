@@ -55,28 +55,25 @@
             
            
 
-            if (matchedPet) {
-                
-                const statusLabels = {
-                  'yes': 'Available',
-                  'no': 'Not Available',
-                  'pending': 'Pending Adoption',
-                  'adopted': 'Adopted'
-                };
-                const displayStatus = statusLabels[matchedPet.avail] || matchedPet.avail || 'Unknown';
-
+          f (matchedPet.avail === 'pending' || matchedPet.avail === 'Pending Adoption') {
                 resultsContainer.innerHTML = `
                   <h3>Pet Found:</h3>
                   <p><strong>Name:</strong> ${matchedPet.name}</p>
                   <p><strong>ID #:</strong> ${matchedPet.id}</p>
                   <p><strong>Microchip #:</strong> ${matchedPet.chip}</p>
-                  <p><strong>Status:</strong> ${displayStatus}</p>
+                  <p><strong>Status:</strong> Pending Adoption</p>
                 `;
-              } else {
+              } 
+            else {
                 resultsContainer.innerHTML = '';
-                alert('ERROR: No pet found with ID #' + targetId);
+                alert('No application');
               }
-            });
+            } 
+            else {
+              resultsContainer.innerHTML = '';
+              alert('ERROR: No pet found with ID #' + targetId);
+            }
+          });
         </script>
         <p>&nbsp;</p>
       </div>
