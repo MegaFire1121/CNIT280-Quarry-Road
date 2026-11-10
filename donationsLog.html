@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <title>Quarry Road Portal - Donations</title>
+</head>
+<body>
+
+  <div id="container">
+    <div id="header">
+      <div id="header_title">
+        <h1>Quarry Road Portal</h1>
+      </div>
+
+      <div id="header_links">
+        <ul>
+          <li id="home"><a href="index.html">Home</a></li>
+          <li id="staff"><a href="staff.html">Staff</a></li>
+          <li id="adopter"><a href="adopter.html">Adopter</a></li>
+          <li id="medical"><a href="medical.html">Medical</a></li>
+          <li id="volunteer"><a href="volunteer.html">Volunteer</a></li>
+          <li id="foster"><a href="foster.html">Foster</a></li>
+          <li id="login"><a href="login.html">Login</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="content_left">
+
+
+    </div>
+
+    <div id="content_main">
+      <div class="content_main_text">
+
+        <table id="donationTable">
+          <thead>
+            <tr>
+              <th>Donor Name</th>
+              <th>ID #</th>
+              <th>Amount Donated (In USD $)</th>
+            </tr>
+          </thead>
+          <tbody id="donor_records">
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+
+
+    <div id="content_right">
+
+    </div>
+
+    <div id="footer">
+
+    </div>
+
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const tbody = document.getElementById('donor_records');
+      const records = JSON.parse(localStorage.getItem('donationData')) || [];
+
+      records.forEach(donor => {
+      const row = document.createElement('tr');
+        
+        [donor.name, donor.id, donor.amount].forEach(value => {
+          const cell = document.createElement('td');
+          cell.textContent = value == null ? '' : String(value);
+          row.appendChild(cell);
+        });
+
+        tbody.appendChild(row);
+      });
+    });
+
+  </script>
+
+</body>
+</html>
