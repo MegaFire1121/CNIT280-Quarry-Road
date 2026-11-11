@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <title>Quarry Road Portal - Adopters Portal</title>
+</head>
+<body>
+
+<div id="container">
+    <div id="header">
+        <div id="header_title">
+            <h1>Quarry Road Portal</h1>
+        </div>
+
+        <div id="header_links">
+            <ul>
+                <li id="home"><a href="index.html">Home</a></li>
+                <li id="staff"><a href="staff.html">Staff</a></li>
+                <li id="adopter"><a href="adopter.html">Adopter</a></li>
+                <li id="medical"><a href="medical.html">Medical</a></li>
+                <li id="volunteer"><a href="volunteer.html">Volunteer</a></li>
+                <li id="foster"><a href="foster.html">Foster</a></li>
+                <li id="login"><a href="login.html">Login</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div id="content_left">
+        <h3>Upcoming Appointments</h3>
+        <ul class="leftmenu">
+            <li><a href="#">First Meeting - Kitten, Tabby (October 22) </a></li>
+            <li><a href="#">Background Check Interview (October 30)</a></li>
+        </ul>
+    </div>
+
+    <div id="content_main">
+        <div class="content_main_text">
+            <h1>Schedule an Appoinment</h1>
+            <form id = 'appointmentForm'>
+                <label for="adopterName">Your Name:</label>
+                <input type="text" id="adopterName" name="adopterName" required>
+                <p> </p>
+                <label for="petID">Pet ID:</label>
+                <input type="text" id="petID" name="petID" required>
+                <p> </p>
+                <label for="apptDate">Date & Time:</label>
+                <input type="datetime-local" id="apptDate" name="apptDate" required>
+                <p> </p>
+
+                <button type="submit">Book Appointment</button>
+            </form>
+            <script>
+                document.getElementById('appointmentForm').addEventListener('submit', function(event) {
+                    event.preventDefault();
+
+                    const adopterName = document.getElementById('adopterName').value;
+                    const petID = document.getElementById('petID').value;
+                    const apptDate = document.getElementById('apptDate').value;
+
+                    const existingAppointments = JSON.parse(localStorage.getItem('appointmentData')) || [];
+                    existingAppointments.push({ adopterName: adopterName, petID: petID, apptDate: apptDate });
+                    localStorage.setItem('appointmentData', JSON.stringify(existingAppointments));
+
+                    this.reset();
+                    alert('Thank you for booking! Your appointment has been added to our schedule.');
+                });
+            </script>
+        </div>
+        <div id="content_main_bottom"></div>
+    </div>
+
+
+    <div id="content_right">
+        <h3>Quick Actions</h3>
+        <ul class="leftmenu">
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="adopterAppointment.html">Schedule A Visit</a></li>
+            <li><a href="#">View Pet Status</a></li>
+        </ul>
+    </div>
+
+    <div id="footer">
+
+    </div>
+
+</div>
+
+</body>
+</html>
