@@ -40,7 +40,7 @@
               <input type="text" id="id" name="id" required>
              <p> </p>
             <label for="amount">Donation Amount: $</label>
-              <input type="text" id="chip" name="chip" required>
+              <input type="text" id="amount" name="chip" required>
             <p> </p>
             <button type="submit">Submit</button>
               </form>
@@ -48,21 +48,25 @@
 
         
         <script>
-            const name = document.getElementById('name').value;
+          document.getElementById('donationForm').addEventListener('submit', function(event) {
+          event.preventDefault();
+
+          const name = document.getElementById('name').value;
             const id = document.getElementById('id').value;
             const amount = document.getElementById('amount').value;
 
-            let existingEntries = JSON.parse(localStorage.getItem('donationData')) || [];
-            existingEntries.push({ name: name, id: id, amount: amount});
-            localStorage.setItem('donationData', JSON.stringify(existingEntries));
+          const existingEntries = JSON.parse(localStorage.getItem('donationData')) || [];
+          existingEntries.push({ name: name, id: id, amount: amount });
+          localStorage.setItem('donationData', JSON.stringify(existingEntries));
 
-            this.reset();
-            
+          this.reset();
+          alert('Your donation has been recieved. Thank you!');
+          });
         </script>
        
       </div>
 
-
+</div>
 
     <div id="footer">
 
