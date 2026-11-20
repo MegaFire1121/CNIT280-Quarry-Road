@@ -1,3 +1,4 @@
+<!-- Assistance from Gemini LLM Was Used To Help With The JavaScript Export Features -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,37 +32,32 @@
     <div id="content_left">
       <h3>Adopter Resources</h3>
       <ul class="leftmenu">
-        <li><a href="#">Adopter Guidelines</a></li>
-        <li><a href="#">Submit a Request</a></li>
         <li><a href="view_pets.html">View Pets</a></li>
-        <li><a href="#">Contact Staff</a></li>
       </ul>
 
       <h3>Upcoming Appointments</h3>
       <ul class="leftmenu">
-        <li><a href="#">First Meeting - Kitten, Tabby (October 22) </a></li>
-        <li><a href="#">Background Check Interview (October 30)</a></li>
+        <li>First Meeting - Kitten, Tabby (October 22)</li>
+        <li>Background Check Interview (October 30)</li>
       </ul>
     </div>
 
     <div id="content_main">
       <div class="content_main_text">
-        <h1>Pet Application Under Review</h1>
+        <h2>Animal Report</h2>
+       <label for = "animal_select">Select An Animal For Report: </label>
+        <select id="animal_select">
+          <option value = ""> Choose An Animal...</option>
+        </select>
+        <button type = "button" id = "Generate_Report_Button">Generate Animal Report</button>
 
-        <hr />
-        <h2>Samuel (ID: #6571)</h2>
-        <ul>
-          <li><strong>Species / Breed:</strong> Cat — Tabby</li>
-        </ul>
-        <h3>Important Medical Info</h3>
-        <ul>
-          <li><strong></strong> Rabies Shot - Dose 1 (Administered October 16)</li>
-          <li><strong></strong> Rabies Shot - Dose 2 (Due on October 29)</li>
-          <li><strong></strong> Flea & Tick Treatment (Completed October 16)</li>
-          <li><strong></strong> Spay Procedure (To Be Scheduled By Adoptive Family)</li>
-        </ul>
-
+        <div id="animal_report_section" style="display: none; margin-top: 20px;">
+          <h3>Individual Animal Status Report</h3>
+          <div id="animal_report_details"></div>
+          <br />
+          <button type="button" id="export_animal_report">Export Animal Report</button>
       </div>
+        </div>
       <div id="content_main_bottom"></div>
     </div>
 
@@ -69,9 +65,7 @@
     <div id="content_right">
       <h3>Quick Actions</h3>
       <ul class="leftmenu">
-        <li><a href="#">Contact Us</a></li>
         <li><a href="adopterAppointment.html">Schedule A Visit</a></li>
-        <li><a href="#">View Pet Status</a></li>
       </ul>
     </div>
 
@@ -80,6 +74,92 @@
     </div>
 
   </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const animalSelect = document.getElementById("animal_select");
+      const generateButton = document.getElementById("Generate_Report_Button");
+      const reportSection = document.getElementById("animal_report_section");
+      const detailsDiv = document.getElementById("animal_report_details");
+      const exportButton = document.getElementById("export_animal_report");
 
+      const statusLabels = {
+        'yes': 'Available',
+        'no': 'Not Available',
+        'pending': 'Pending Adoption',
+        'adopted': 'Adopted'
+      };
+
+      function calculateLengthOfStay(intakeDateStr) {
+        if (!intakeDateStr) return 'N/A';
+        const intake = new Date(intakeDateStr);
+        if (isNaN(intake)) return 'N/A';
+        const today = new Date();
+        const diffTime = Math.abs(today - intake);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        return diffDays + ' days';
+      }
+
+      const records = JSON.parse(localStorage.getItem('tableData')) || [];
+      records.forEach(pet => {
+        const option = document.createElement('option');
+        option.value = pet.id;
+        option.textContent = `${pet.name} (ID: ${pet.id})`;
+        animalSelect.appendChild(option);
+      });
+
+      let currentPet = null;
+
+      generateButton.addEventListener('click', function() {
+        const selectedId = animalSelect.value;
+        if (!selectedId) {
+          alert('Please choose an animal first.');
+          return;
+        }
+
+        currentPet = records.find(pet => String(pet.id) === String(selectedId));
+        if (!currentPet) {
+          detailsDiv.innerHTML = '<p>ERROR: Animal Record Was Not Found</p>';
+          reportSection.style.display = 'block';
+          return;
+        }
+
+        const formattedAvail = statusLabels[currentPet.avail] || currentPet.avail || 'Unknown';
+        const lengthOfStay = calculateLengthOfStay(currentPet.intakeDate);
+
+        detailsDiv.innerHTML = `
+        <table id="singleAnimalTable">
+          <tr><th>Pet Name</th><td>${currentPet.name || 'N/A'}</td></tr>
+          <tr><th>ID #</th><td>${currentPet.id || 'N/A'}</td></tr>
+          <tr><th>Microchip #</th><td>${currentPet.chip || 'N/A'}</td></tr>
+          <tr><th>Availability / Status</th><td>${formattedAvail}</td></tr>
+          <tr><th>Intake Date</th><td>${currentPet.intakeDate || 'N/A'}</td></tr>
+          <tr><th>Length of Stay</th><td>${lengthOfStay}</td></tr>
+          <tr><th>Spay/Neuter</th><td>${currentPet.spayNeuter || 'N/A'}</td></tr>
+        </table>
+      `;
+        reportSection.style.display = 'block';
+      });
+
+      exportButton.addEventListener('click', function() {
+        if (!currentPet) return;
+        const rows = document.querySelectorAll('#singleAnimalTable tr');
+        const csvLines = [];
+
+        rows.forEach(row => {
+          const cols = row.querySelectorAll('th, td');
+          const rowData = Array.from(cols).map(col => `"${col.textContent.replace(/"/g, '""')}"`);
+          csvLines.push(rowData.join(','));
+        });
+
+        const csvBlob = new Blob([csvLines.join('\n')], { type: 'text/csv' });
+        const downloadUrl = URL.createObjectURL(csvBlob);
+        const tempLink = document.createElement('a');
+        tempLink.href = downloadUrl;
+        tempLink.download = `${currentPet.name || 'animal'}_report.csv`;
+        tempLink.click();
+        URL.revokeObjectURL(downloadUrl);
+      });
+    });
+  </script>
 </body>
 </html>

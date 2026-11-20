@@ -1,0 +1,158 @@
+<!-- Assistance from Gemini Was Used To Help With The JavaScript Export Features -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <title>Quarry Road Portal - Reports</title>
+</head>
+<body>
+
+<div id="container">
+    <div id="header">
+        <div id="header_title">
+            <h1>Quarry Road Portal</h1>
+        </div>
+
+        <div id="header_links">
+            <ul>
+                <li id="home"><a href="index.html">Home</a></li>
+                <li id="staff"><a href="staff.html">Staff</a></li>
+                <li id="adopter"><a href="adopter.html">Adopter</a></li>
+                <li id="medical"><a href="medical.html">Medical</a></li>
+                <li id="volunteer"><a href="volunteer.html">Volunteer</a></li>
+                <li id="foster"><a href="foster.html">Foster</a></li>
+                <li id="login"><a href="login.html">Login</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+
+    <div id="content_main">
+        <div class="content_main_text">
+            <h2>Reports</h2>
+            <button type="button" id="generate_admin">Generate Organizational Report</button>
+
+            <div id="report_section" style="display: none; margin-top: 20px;">
+                <h3>Organizational Report</h3>
+                <div id="admin_report_summary" style="margin-bottom: 15px;"></div>
+
+                <table id="orgReportTable">
+                    <thead>
+                    <tr>
+                        <th>Pet Name</th>
+                        <th>ID #</th>
+                        <th>Microchip #</th>
+                        <th>Availability</th>
+                        <th>Intake Date</th>
+                        <th>Length of Stay</th>
+                        <th>Spay/Neuter</th>
+                    </tr>
+                    </thead>
+                    <tbody id="admin_report_records"></tbody>
+                </table>
+
+                <br />
+                <button type="button" id="export">Export Report </button>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+    <div id="footer">
+
+    </div>
+
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const generateButton = document.getElementById('generate_admin');
+        const reportSection = document.getElementById('report_section');
+        const tbody = document.getElementById('admin_report_records');
+        const summaryDiv = document.getElementById('admin_report_summary');
+        const exportButton = document.getElementById('export');
+        const statusLabels = {
+            'yes': 'Available',
+            'no': 'Not Available',
+            'pending': 'Pending Adoption',
+            'adopted': 'Adopted'
+        };
+
+        function calculateLengthOfStay(intakeDateStr) {
+            if (!intakeDateStr) return 'N/A';
+            const intake = new Date(intakeDateStr);
+            if (isNaN(intake)) return 'N/A';
+            const today = new Date();
+            const diffTime = Math.abs(today - intake);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            return diffDays + ' days';
+        }
+
+        generateButton.addEventListener('click', function() {
+            const records = JSON.parse(localStorage.getItem('tableData')) || [];
+            tbody.innerHTML = '';
+
+            let adoptedCount = 0;
+            let spayNeuterCount = 0;
+
+            records.forEach(pet => {
+                if (pet.avail === 'adopted') adoptedCount++;
+                if (pet.spayNeuter === 'yes' || pet.spayNeuter === true) spayNeuterCount++;
+
+                const row = document.createElement('tr');
+                const formattedAvail = statusLabels[pet.avail] || pet.avail || 'Unknown';
+                const lengthOfStay = calculateLengthOfStay(pet.intakeDate);
+                const spayStatus = pet.spayNeuter || 'N/A';
+                [
+                    pet.name,
+                    pet.id,
+                    pet.chip,
+                    formattedAvail,
+                    pet.intakeDate || 'N/A',
+                    lengthOfStay,
+                    spayStatus
+                ].forEach(value => {
+                    const cell = document.createElement('td');
+                    cell.textContent = value == null ? '' : String(value);
+                    row.appendChild(cell);
+                });
+
+                tbody.appendChild(row);
+            });
+
+            summaryDiv.innerHTML = `<p><strong>Total Animals:</strong> ${records.length} | <strong>Adopted Pets:</strong> ${adoptedCount} </p>`;
+            reportSection.style.display = 'block';
+        });
+
+        exportButton.addEventListener('click', function() {
+            const rows = document.querySelectorAll('#orgReportTable tr');
+            const csvLines = [];
+
+            rows.forEach(row => {
+                const cols = row.querySelectorAll('th, td');
+                const rowData = Array.from(cols).map(col => `"${col.textContent.replace(/"/g, '""')}"`);
+                csvLines.push(rowData.join(','));
+            });
+
+            const csvBlob = new Blob([csvLines.join('\n')], { type: 'text/csv' });
+            const downloadUrl = URL.createObjectURL(csvBlob);
+            const tempLink = document.createElement('a');
+            tempLink.href = downloadUrl;
+            tempLink.download = 'organizational_report.csv';
+            tempLink.click();
+            URL.revokeObjectURL(downloadUrl);
+        });
+    });
+</script>
+
+
+
+</body>
+</html>
