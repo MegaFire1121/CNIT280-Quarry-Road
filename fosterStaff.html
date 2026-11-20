@@ -1,0 +1,146 @@
+<!-- code debugging was assisted with the help of Google Gemini for the Script -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <title>Quarry Road Portal - Foster Coordinator Portal</title>
+</head>
+<body>
+
+<div id="container">
+    <div id="header">
+        <div id="header_title">
+            <h1>Quarry Road Portal</h1>
+        </div>
+
+        <div id="header_links">
+            <ul>
+                <li id="home"><a href="index.html">Home</a></li>
+                <li id="staff"><a href="staff.html">Staff</a></li>
+                <li id="adopter"><a href="adopter.html">Adopter</a></li>
+                <li id="medical"><a href="medical.html">Medical</a></li>
+                <li id="volunteer"><a href="volunteer.html">Volunteer</a></li>
+                <li id="foster"><a href="foster.html">Foster</a></li>
+                <li id="login"><a href="login.html">Login</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div id="content_main">
+        <div class="content_main_text">
+            <h2>Welcome Owen Brzezinski!</h2>
+            <h3>Filter Foster Homes</h3>
+
+           <div id = "filter_controls" style = "margin-bottom: 15px;">
+               <p>
+                   <label for = "min_capacity">Minimum Available Capacity Needed: </label>
+                   <input type = "number" id = "min_capacity" min = 0 value = 1>
+               </p>
+
+               <p><strong>Animal Placement Needs:</strong></p>
+               <label><input type="checkbox" id="need_dogs"> Exclude "No Dogs" homes</label><br />
+               <label><input type="checkbox" id="need_cats"> Exclude "No Cats" homes</label><br />
+               <label><input type="checkbox" id="need_children">Exclude "No Children" homes</label><br />
+               <label><input type="checkbox" id="need_medical"> Exclude "No Medical Needs" homes</label><br />
+               <label><input type="checkbox" id="need_yard"> Exclude "No Fenced Yard" Homes</label><br />
+
+               <button type = "button" id = "apply_filters">Filter Homes</button>
+               <button type = "button" id = "reset_filters">Show All Homes</button>
+
+           </div>
+            <table id="foster_results_table">
+                <thead>
+                <tr>
+                    <th>Family Name</th>
+                    <th>Contact Info</th>
+                    <th>Available Capacity</th>
+                    <th>Restrictions / Features</th>
+                    <th>Notes</th>
+                </tr>
+                </thead>
+                <tbody id="foster_results_body"></tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <div id="footer">
+
+    </div>
+
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const tbody = document.getElementById("foster_results_body");
+        const filter_button = document.getElementById("apply_filters");
+        const reset_button = document.getElementById("reset_filters");
+
+        function renderHomes(homesList) {
+            tbody.innerHTML = "";
+
+            if (homesList.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5">ERROR: No matching foster homes found.</td></tr>';
+                return;
+            }
+
+            homesList.forEach(home => {
+                const row = document.createElement("tr");
+                const restrictionsText = (home.restrictions && home.restrictions.length > 0)
+                    ? home.restrictions.join(", ")
+                    : "None";
+
+                [
+                    home.familyName,
+                    home.contactInfo,
+                    `${home.availableCapacity} (Max: ${home.maxCapacity})`,
+                    restrictionsText,
+                    home.notes || "N/A"
+                ].forEach(val => {
+                    const cell = document.createElement("td");
+                    cell.textContent = val == null ? "" : String(val);
+                    row.appendChild(cell);
+                });
+
+                tbody.appendChild(row);
+            });
+        }
+
+        const allHomes = JSON.parse(localStorage.getItem("fosterHomes")) || [];
+        renderHomes(allHomes);
+
+        filter_button.addEventListener("click", function() {
+            const minCapacity = parseInt(document.getElementById("min_capacity").value, 10) || 0;
+            const isDog = document.getElementById("need_dogs").checked;
+            const isCat = document.getElementById("need_cats").checked;
+            const hasChildren = document.getElementById("need_children").checked;
+            const hasMedical = document.getElementById("need_medical").checked;
+            const needsYard = document.getElementById("need_yard").checked;
+
+            const filtered = allHomes.filter((home) => {
+                const restrictions = home.restrictions || [];
+
+                if (home.availableCapacity < minCapacity) return false;
+                if (isDog && restrictions.includes("No Dogs")) return false;
+                if (isCat && restrictions.includes("No Cats")) return false;
+                if (hasChildren && restrictions.includes("No Children")) return false;
+                if (hasMedical && restrictions.includes("No Medical Needs")) return false;
+                if (needsYard && !restrictions.includes("Fenced Yard")) return false;
+
+                return true;
+            });
+
+            renderHomes(filtered);
+        });
+
+        reset_button.addEventListener("click", function() {
+            document.getElementById("min_capacity").value = 1;
+            document.querySelectorAll('#filter_controls input[type="checkbox"]').forEach(cb => cb.checked = false);
+            renderHomes(allHomes);
+        });
+    });
+</script>
+</body>
+</html>

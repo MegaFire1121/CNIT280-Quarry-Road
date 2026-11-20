@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <title>Quarry Road Portal - Fosters Portal</title>
+</head>
+<body>
+
+<div id="container">
+    <div id="header">
+        <div id="header_title">
+            <h1>Quarry Road Portal</h1>
+        </div>
+
+        <div id="header_links">
+            <ul>
+                <li id="home"><a href="index.html">Home</a></li>
+                <li id="staff"><a href="staff.html">Staff</a></li>
+                <li id="adopter"><a href="adopter.html">Adopter</a></li>
+                <li id="medical"><a href="medical.html">Medical</a></li>
+                <li id="volunteer"><a href="volunteer.html">Volunteer</a></li>
+                <li id="foster"><a href="foster.html">Foster</a></li>
+                <li id="login"><a href="login.html">Login</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div id="content_left">
+
+    </div>
+
+    <div id="content_main">
+        <div class="content_main_text">
+            <h2>Update My Information</h2>
+            <form id="foster_update_form">
+                <label for="family_name">Name:</label>
+                <input type = "text" id = "family_name" required><br />
+                <label for="contact_info">Phone/Email:</label>
+                <input type = "text" id = "contact_info" required><br />
+                <label for="capacity">Max Animal Capacity for Your Home:</label>
+                <input type = "number" id = "capacity" min = "1"><br />
+                <label for="current_animal_count">Current # of Animals In Your Home:</label>
+                <input type = "number" id = "current_animal_count" min = "0"><br />
+
+                <p><Strong>My Household Restrictions:</Strong></p>
+                <label><input type = "checkbox" name = "restrictions" value = "No Dogs"> No Dogs </label> <br />
+                <label><input type = "checkbox" name = "restrictions" value = "No Cats"> No Cats </label> <br />
+                <label><input type = "checkbox" name = "restrictions" value = "No Children"> No Children </label> <br />
+                <label><input type = "checkbox" name = "restrictions" value = "Fenced Yard"> No Fenced Yard</label> <br />
+                <label><input type = "checkbox" name = "restrictions" value = "No Medical Needs"> No Medical Needs </label> <br />
+
+                <p>
+                    <label for = "household_notes"> Additonal Notes For Quarry Road's Foster Coordinator</label>
+                    <textarea id = "household_notes" name = "household_notes" rows = "4" cols = "40"></textarea>
+                </p>
+
+                <button type="submit" id = "save_foster_info">Save</button>
+            </form>
+
+            <p id = "confirmation" style="color: green; font-weight: bold;"></p>
+
+
+        </div>
+        <div id="content_main_bottom"></div>
+    </div>
+
+
+
+
+    <div id="footer">
+
+    </div>
+
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const form = document.getElementById("foster_update_form");
+        const confirmationMsg = document.getElementById("confirmation");
+
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const familyName = document.getElementById("family_name").value.trim();
+            const contactInfo = document.getElementById("contact_info").value.trim();
+            const maxCapacity = parseInt(document.getElementById("capacity").value, 10) || 0;
+            const currentCount = parseInt(document.getElementById("current_animal_count").value, 10) || 0;
+            const notes = document.getElementById("household_notes").value.trim();
+            const checkedBoxes = document.querySelectorAll('input[name="restrictions"]:checked');
+            const restrictions = Array.from(checkedBoxes).map(box => box.value);
+            const availableCapacity = Math.max(0, maxCapacity - currentCount);
+            const fosterRecord = {
+                familyName: familyName,
+                contactInfo: contactInfo,
+                maxCapacity: maxCapacity,
+                currentCount: currentCount,
+                availableCapacity: availableCapacity,
+                restrictions: restrictions,
+                notes: notes
+            };
+            const fosterHomes = JSON.parse(localStorage.getItem("fosterHomes")) || [];
+            const existingIndex = fosterHomes.findIndex(
+                home => home.familyName.toLowerCase() === familyName.toLowerCase()
+            );
+
+            if (existingIndex !== -1) {
+                fosterHomes[existingIndex] = fosterRecord;
+            } else {
+                fosterHomes.push(fosterRecord);
+            }
+
+            localStorage.setItem("fosterHomes", JSON.stringify(fosterHomes));
+            confirmationMsg.textContent = 'Your Household Information Has Been Updated!';
+        });
+    });
+</script>
+</body>
+</html>
